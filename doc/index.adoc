@@ -1,0 +1,67 @@
+= Onion Architecture Governance Sample
+
+This document describes some sample architecture constraints for an onion architecture. It contains the various concepts
+and constraints to be applied to and checked against the code base using jqAssistant.
+
+
+== Concepts
+
+Concepts describe higher-level building blocks that form part of an onion architecture. These concepts are represented
+in the code base as stereotype (using annotations) and build up the architecture language used to express the actual
+architecture rules.
+
+
+=== Domain Ring
+
+The domain ring represents the most inner ring of an onion architecture. It contains all elements that represent the
+business logic of the domain.
+
+_jqAssistant Concept Definition_
+[[sample:PackageOfDomainRingConcept]]
+[source,cypher,role=concept]
+----
+ MATCH     (p:Package)
+ WHERE     p.fqn CONTAINS '.domain'
+   SET     p:DomainRing
+RETURN     p.fqn
+----
+
+
+=== Aggregate
+
+An aggregate represents a main concept of the domain model. It encapsulates state and business logic and is responsible
+for enforcing business invariants. Aggregates are part of the domain ring.
+
+_jqAssistant Concept Definition_
+[[sample:AggregateConcept]]
+[source,cypher,role=concept]
+----
+ MATCH     (t:Type)-[:ANNOTATED_BY]->()-[:OF_TYPE]->(a:Annotation)
+ WHERE     a.fqn = "com.github.cstettler.sample.onionjqassistant.stereotype.Aggregate"
+   SET     t:Aggregate
+RETURN     t.fqn
+----
+
+(more concepts to follow)
+
+
+== Constraints
+
+Constraints define rules that the implementation of an onion architecture have to follow. Constraints are expressed
+using the architecture language defined by concepts.
+
+=== C1 - Aggregates must reside in Domain Ring
+
+As aggregates contain business logic and related state, and only the domain ring must contain business logic, aggregates
+must reside in the domain ring.
+
+_jqAssistant Constraint Definition_
+[[sample:AggregateMustResideInDomainRingConstraint]]
+[source,cypher,role=constraint,requiresConcepts="sample:AggregateConcept,sample:PackageOfDomainRingConcept"]
+----
+    MATCH  (a:Aggregate)<-[:CONTAINS]-(p:Package)
+WHERE NOT  p:DomainRing
+   RETURN  a.fqn AS AggregateInWrongRing
+----
+
+(more constraints to follow)
