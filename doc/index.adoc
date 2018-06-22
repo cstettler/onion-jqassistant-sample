@@ -17,7 +17,7 @@ The domain ring represents the most inner ring of an onion architecture. It cont
 business logic of the domain.
 
 _jqAssistant Concept Definition_
-[[sample:PackageOfDomainRingConcept]]
+[[sample:DomainRingConcept]]
 [source,cypher,role=concept]
 ----
  MATCH     (p:Package)
@@ -72,7 +72,7 @@ must reside in the domain ring.
 
 _jqAssistant Constraint Definition_
 [[sample:AggregateMustResideInDomainRingConstraint]]
-[source,cypher,role=constraint,requiresConcepts="sample:AggregateConcept,sample:PackageOfDomainRingConcept"]
+[source,cypher,role=constraint,requiresConcepts="sample:AggregateConcept,sample:DomainRingConcept"]
 ----
     MATCH  (a:Aggregate)<-[:CONTAINS]-(p:Package)
 WHERE NOT  p:DomainRing
