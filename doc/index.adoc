@@ -42,6 +42,21 @@ _jqAssistant Concept Definition_
 RETURN     t.fqn
 ----
 
+=== Application Service
+
+An application service represents the boundary between the infrastructure / external context and the domain. It provides
+access to the business logic of the domain, but does not implement domain logic itself.
+
+_jqAssistant Concept Definition_
+[[sample:ApplicationServiceConcept]]
+[source,cypher,role=concept]
+----
+ MATCH     (t:Type)-[:ANNOTATED_BY]->()-[:OF_TYPE]->(a:Annotation)
+ WHERE     a.fqn = "com.github.cstettler.sample.onionjqassistant.stereotype.ApplicationService"
+   SET     t:ApplicationService
+RETURN     t.fqn
+----
+
 (more concepts to follow)
 
 
@@ -61,7 +76,21 @@ _jqAssistant Constraint Definition_
 ----
     MATCH  (a:Aggregate)<-[:CONTAINS]-(p:Package)
 WHERE NOT  p:DomainRing
-   RETURN  a.fqn AS AggregateInWrongRing
+   RETURN  a.fqn AS Aggregate
+----
+
+
+=== C2 - Aggregates must not use Application Services
+
+As application services represent the boundary of the domain towards external contexts, aggregates must not invoke
+application services.
+
+_jqAssistant Constraint Definition_
+[[sample:AggregatesMustNotUseApplicationServicesConstraint]]
+[source,cypher,role=constraint,requiresConcepts="sample:AggregateConcept,sample:ApplicationServiceConcept"]
+----
+    MATCH  (a:Aggregate)-[:DEPENDS_ON]->(s:ApplicationService)
+   RETURN  a.fqn AS Aggregate, s.fqn AS ApplicationService
 ----
 
 (more constraints to follow)

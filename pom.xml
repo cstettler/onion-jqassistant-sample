@@ -31,6 +31,7 @@
                             <rulesDirectory>doc</rulesDirectory>
                             <constraints>
                                 <constraint>sample:AggregateMustResideInDomainRingConstraint</constraint>
+                                <constraint>sample:AggregatesMustNotUseApplicationServicesConstraint</constraint>
                             </constraints>
                         </configuration>
                     </execution>
