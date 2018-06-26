@@ -2,10 +2,10 @@
 
 This repository contains a simple sample for implementing architecture 
 governance for an onion architecture based on stereotypes with help of
-[jqAssistant](http://jqassistant.org) .
+[jQAssistant](http://jqassistant.org) .
 
 In addition to defining sample concepts and related sample constraints, this 
-repository demonstrates how to document jqAssistant rules directly in an 
+repository demonstrates how to document jQAssistant rules directly in an 
 AsciiDoc-based architecture documentation. 
 
 ## Rules

@@ -1,7 +1,7 @@
 = Onion Architecture Governance Sample
 
 This document describes some sample architecture constraints for an onion architecture. It contains the various concepts
-and constraints to be applied to and checked against the code base using jqAssistant.
+and constraints to be applied to and checked against the code base using jQAssistant.
 
 
 == Concepts
@@ -16,7 +16,7 @@ architecture rules.
 The domain ring represents the most inner ring of an onion architecture. It contains all elements that represent the
 business logic of the domain.
 
-_jqAssistant Concept Definition_
+_jQAssistant Concept Definition_
 [[sample:DomainRingConcept]]
 [source,cypher,role=concept]
 ----
@@ -33,7 +33,7 @@ RETURN     p.fqn
 An aggregate represents a main concept of the domain model. It encapsulates state and business logic and is responsible
 for enforcing business invariants. Aggregates are part of the domain ring.
 
-_jqAssistant Concept Definition_
+_jQAssistant Concept Definition_
 [[sample:AggregateConcept]]
 [source,cypher,role=concept]
 ----
@@ -48,7 +48,7 @@ RETURN     t.fqn
 An application service represents the boundary between the infrastructure / external context and the domain. It provides
 access to the business logic of the domain, but does not implement domain logic itself.
 
-_jqAssistant Concept Definition_
+_jQAssistant Concept Definition_
 [[sample:ApplicationServiceConcept]]
 [source,cypher,role=concept]
 ----
@@ -71,7 +71,7 @@ using the architecture language defined by concepts.
 As aggregates contain business logic and related state, and only the domain ring must contain business logic, aggregates
 must reside in the domain ring.
 
-_jqAssistant Constraint Definition_
+_jQAssistant Constraint Definition_
 [[sample:AggregateMustResideInDomainRingConstraint]]
 [source,cypher,role=constraint,requiresConcepts="sample:AggregateConcept,sample:DomainRingConcept"]
 ----
@@ -86,7 +86,7 @@ WHERE NOT  a:DomainRing
 As application services represent the boundary of the domain towards external contexts, aggregates must not invoke
 application services.
 
-_jqAssistant Constraint Definition_
+_jQAssistant Constraint Definition_
 [[sample:AggregatesMustNotUseApplicationServicesConstraint]]
 [source,cypher,role=constraint,requiresConcepts="sample:AggregateConcept,sample:ApplicationServiceConcept"]
 ----
