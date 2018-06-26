@@ -20,9 +20,10 @@ _jqAssistant Concept Definition_
 [[sample:DomainRingConcept]]
 [source,cypher,role=concept]
 ----
- MATCH     (p:Package)
+ MATCH     (t:Type)<-[:CONTAINS]-(p:Package)
  WHERE     p.fqn CONTAINS '.domain'
    SET     p:DomainRing
+   SET     t:DomainRing
 RETURN     p.fqn
 ----
 
@@ -74,8 +75,8 @@ _jqAssistant Constraint Definition_
 [[sample:AggregateMustResideInDomainRingConstraint]]
 [source,cypher,role=constraint,requiresConcepts="sample:AggregateConcept,sample:DomainRingConcept"]
 ----
-    MATCH  (a:Aggregate)<-[:CONTAINS]-(p:Package)
-WHERE NOT  p:DomainRing
+    MATCH  (a:Aggregate)
+WHERE NOT  a:DomainRing
    RETURN  a.fqn AS Aggregate
 ----
 
